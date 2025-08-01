@@ -27,7 +27,7 @@ function TaskTrackerPage() {
 
   // Fetch tasks on load
   useEffect(() => {
-    fetch(`${BASE_URL}/tasks`)
+    fetch(`${BASE_URL}`)
       .then(res => res.json())
       .then(data => setTasks(data))
       .catch(err => setError('Failed to load tasks.'));
@@ -50,7 +50,7 @@ function TaskTrackerPage() {
       completed: false
     };
 
-    fetch(`${BASE_URL}/tasks`, {
+    fetch(`${BASE_URL}`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(newTask)
@@ -71,7 +71,7 @@ function TaskTrackerPage() {
 
     const updated = { ...task, completed: !task.completed };
 
-    fetch(`${BASE_URL}/tasks/${id}`, {
+    fetch(`${BASE_URL}/${id}`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(updated)
@@ -88,7 +88,7 @@ function TaskTrackerPage() {
   };
 
   const handleDeleteTask = (id) => {
-    fetch(`${BASE_URL}/tasks/${id}`, { method: 'DELETE' })
+    fetch(`${BASE_URL}/${id}`, { method: 'DELETE' })
       .then(() => {
         setTasks(tasks.filter(t => t.id !== id));
       });

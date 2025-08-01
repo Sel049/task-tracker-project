@@ -25,12 +25,22 @@ function TaskTrackerPage() {
     "You did it! Celebrate your wins!"
   ];
 
-  // Fetch tasks on load
+  // ✅ Fetch tasks on load
   useEffect(() => {
-    fetch(`${BASE_URL}`)
+    fetch(`${BASE_URL}/tasks`)
       .then(res => res.json())
-      .then(data => setTasks(data))
-      .catch(err => setError('Failed to load tasks.'));
+      .then(data => {
+        if (Array.isArray(data)) {
+          setTasks(data);
+        } else {
+          console.error("Expected array but got:", data);
+          setError("Unexpected response format.");
+        }
+      })
+      .catch(err => {
+        console.error(err);
+        setError('Failed to load tasks.');
+      });
   }, []);
 
   const handleAddTask = (e) => {
@@ -50,7 +60,7 @@ function TaskTrackerPage() {
       completed: false
     };
 
-    fetch(`${BASE_URL}`, {
+    fetch(`${BASE_URL}/tasks`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(newTask)
@@ -71,7 +81,7 @@ function TaskTrackerPage() {
 
     const updated = { ...task, completed: !task.completed };
 
-    fetch(`${BASE_URL}/${id}`, {
+    fetch(`${BASE_URL}/tasks/${id}`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(updated)
@@ -88,7 +98,7 @@ function TaskTrackerPage() {
   };
 
   const handleDeleteTask = (id) => {
-    fetch(`${BASE_URL}/${id}`, { method: 'DELETE' })
+    fetch(`${BASE_URL}/tasks/${id}`, { method: 'DELETE' })
       .then(() => {
         setTasks(tasks.filter(t => t.id !== id));
       });

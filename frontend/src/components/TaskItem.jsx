@@ -4,7 +4,7 @@ function TaskItem({ task, handleToggleComplete, handleDeleteTask }) {
       className={`flex flex-col md:flex-row items-start md:items-center justify-between gap-4 p-4 rounded-xl shadow-sm bg-gray-50 border-l-4 ${task.completed ? 'border-green-500 opacity-70' : 'border-blue-400'}`}
     >
       <div className="flex-1">
-        <div className="font-bold text-lg text-gray-900 mb-1">{task.name}</div>
+        <div className="font-bold text-lg text-gray-900 mb-1">{task.title}</div>
         <div className="text-gray-700 mb-1">{task.description}</div>
       </div>
       <div className="flex gap-2">
